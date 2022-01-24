@@ -4,6 +4,9 @@ namespace TicTacToe.PlayField
 {
     public class CellField : IIndexable<Symbol>
     {
+        public event Action<int, Symbol> OnChange;
+        public int Length => _cells.Length;
+        
         private IContainer<Symbol>[] _cells;
 
         
@@ -23,6 +26,7 @@ namespace TicTacToe.PlayField
                 }
 
                 _cells[i].Value = value;
+                OnChange?.Invoke(i, value);
             }
         }
 
