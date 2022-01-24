@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TicTacToe.PlayField
+namespace TicTacToe.PlayField.Logic
 {
     public class CellField : IIndexable<Symbol>
     {

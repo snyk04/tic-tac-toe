@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UI;
 
-namespace TicTacToe.PlayField
+namespace TicTacToe.PlayField.Visual
 {
     public class CellVisual : IContainer<string>
     {

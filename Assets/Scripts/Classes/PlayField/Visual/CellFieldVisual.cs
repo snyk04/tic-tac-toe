@@ -1,4 +1,6 @@
-﻿namespace TicTacToe.PlayField
+﻿using TicTacToe.PlayField.Logic;
+
+namespace TicTacToe.PlayField.Visual
 {
     public class CellFieldVisual
     {

@@ -1,4 +1,4 @@
-﻿namespace TicTacToe.PlayField
+﻿namespace TicTacToe.PlayField.Logic
 {
     public enum Symbol
     {

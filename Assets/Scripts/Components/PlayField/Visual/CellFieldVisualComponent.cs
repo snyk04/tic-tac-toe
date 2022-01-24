@@ -1,9 +1,8 @@
 ﻿using System;
-using TicTacToe;
-using TicTacToe.PlayField;
+using TicTacToe.PlayField.Logic;
 using UnityEngine;
 
-namespace Components.PlayField
+namespace TicTacToe.PlayField.Visual
 {
     public class CellFieldVisualComponent : MonoBehaviour
     {
