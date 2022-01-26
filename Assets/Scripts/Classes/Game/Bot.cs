@@ -13,17 +13,10 @@ namespace TicTacToe.Game
         {
             IIndexable<Symbol> tempCellField = cellField.Copy();
 
-            _playerSymbol = symbol;
-            _opponentSymbol = symbol switch
-            {
-                Symbol.X => Symbol.O,
-                Symbol.O => Symbol.X,
-                _ => throw new ArgumentException()
-            };
+            SetSymbols(symbol);
             
             int bestValue = -100;
             int move = -1;
-
             for (int i = 0; i < tempCellField.Length; i++)
             {
                 if (tempCellField[i] != Symbol.Empty)
@@ -32,9 +25,7 @@ namespace TicTacToe.Game
                 }
 
                 tempCellField[i] = symbol;
-
-                int moveValue = MiniMax(tempCellField, false, 0);
-
+                int moveValue = Minimax(tempCellField, false, 0);
                 tempCellField[i] = Symbol.Empty;
                 
                 if (moveValue > bestValue)
@@ -46,8 +37,17 @@ namespace TicTacToe.Game
             
             return move;
         }
-        
-        private int MiniMax(IIndexable<Symbol> cellField, bool isMax, int depth)
+        private void SetSymbols(Symbol playerSymbol)
+        {
+            _playerSymbol = playerSymbol;
+            _opponentSymbol = playerSymbol switch
+            {
+                Symbol.X => Symbol.O,
+                Symbol.O => Symbol.X,
+                _ => throw new ArgumentException()
+            };
+        }
+        private int Minimax(IIndexable<Symbol> cellField, bool isMax, int depth)
         {
             if (CellFieldAnalyzer.CheckVictory(cellField, _playerSymbol))
             {
@@ -74,7 +74,7 @@ namespace TicTacToe.Game
                     }
                     
                     cellField[i] = _playerSymbol;
-                    bestValue = Math.Max(bestValue, MiniMax(cellField, false, depth + 1));
+                    bestValue = Math.Max(bestValue, Minimax(cellField, false, depth + 1));
                     cellField[i] = Symbol.Empty;
                 }
             }
@@ -89,7 +89,7 @@ namespace TicTacToe.Game
                     }
 
                     cellField[i] = _opponentSymbol;
-                    bestValue = Math.Min(bestValue, MiniMax(cellField, true, depth + 1));
+                    bestValue = Math.Min(bestValue, Minimax(cellField, true, depth + 1));
                     cellField[i] = Symbol.Empty;
                 }
             }
