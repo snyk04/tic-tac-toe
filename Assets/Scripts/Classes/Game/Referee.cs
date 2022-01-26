@@ -8,6 +8,8 @@ namespace TicTacToe.Game
 {
     public class Referee : IGameHandler, IDisposable
     {
+        private const int TurnDelay = 20;
+        
         public IControllable CurrentControllablePlayer { get; private set; }
         public event Action<GameEndType> OnGameEnd;
         
@@ -46,6 +48,7 @@ namespace TicTacToe.Game
         }
         private void HandlePlayerMove(IMovable player, Symbol symbol)
         {
+            Thread.Sleep(TurnDelay);
             int playerMove = 0;
             if (player.GetType().GetInterfaces().ToList().Contains(typeof(IControllable)))
             {
@@ -57,7 +60,7 @@ namespace TicTacToe.Game
             _currentPlayerMoveThread.Join();
             
             UnityMainThreadDispatcher.Instance().Enqueue(() => _cellField[playerMove] = symbol);
-            Thread.Sleep(100);
+            Thread.Sleep(TurnDelay);
             
             if (CellFieldAnalyzer.CheckVictory(_cellField, symbol))
             {
