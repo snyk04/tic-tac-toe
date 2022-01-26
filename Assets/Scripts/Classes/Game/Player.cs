@@ -18,10 +18,7 @@ namespace TicTacToe.Game
         
         public int GetMove(IIndexable<Symbol> cellField)
         {
-            while (_waitingForInput)
-            {
-                Debug.Log("i'm waiting for input!!!");
-            }
+            while (_waitingForInput) { }
             _waitingForInput = true;
             
             return _move;

@@ -9,7 +9,7 @@ namespace TicTacToe.Game
     public class Referee : IGameHandler, IDisposable
     {
         public IControllable CurrentControllablePlayer { get; private set; }
-        public event Action OnGameEnd;
+        public event Action<Symbol> OnGameEnd;
         
         private IMovable _firstPlayer;
         private IMovable _secondPlayer;
@@ -33,7 +33,7 @@ namespace TicTacToe.Game
 
             _gameLoopThread = new Thread(GameLoop);
             _gameLoopThread.Start();
-            OnGameEnd += _gameLoopThread.Abort;
+            OnGameEnd += _ => _gameLoopThread.Abort();
         }
 
         private void GameLoop()
@@ -60,7 +60,7 @@ namespace TicTacToe.Game
             Thread.Sleep(100);
             if (CheckVictory(symbol))
             {
-                OnGameEnd?.Invoke();
+                UnityMainThreadDispatcher.Instance().Enqueue(() => OnGameEnd?.Invoke(symbol));
             }
         }
 
