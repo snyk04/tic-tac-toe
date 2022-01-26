@@ -7,7 +7,7 @@ namespace TicTacToe.Game
     public interface IGameHandler
     {
         IControllable CurrentControllablePlayer { get; }
-        event Action<Symbol> OnGameEnd;
+        event Action<GameEndType> OnGameEnd;
         void HandleGame(IMovable firstPlayer, IMovable secondPlayer, IIndexable<Symbol> cellField);
     }
 }

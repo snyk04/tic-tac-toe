@@ -5,6 +5,6 @@ namespace TicTacToe.Game
 {
     public interface IMovable
     {
-        int GetMove(IIndexable<Symbol> cellField);
+        int GetMove(IIndexable<Symbol> cellField, Symbol symbol);
     }
 }

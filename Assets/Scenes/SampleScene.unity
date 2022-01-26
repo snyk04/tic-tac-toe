@@ -326,7 +326,7 @@ MonoBehaviour:
   _referee: {fileID: 1641132081}
   _cellField: {fileID: 109194783}
   _firstPlayerType: 0
-  _secondPlayerType: 0
+  _secondPlayerType: 1
 --- !u!1 &248681435
 GameObject:
   m_ObjectHideFlags: 0

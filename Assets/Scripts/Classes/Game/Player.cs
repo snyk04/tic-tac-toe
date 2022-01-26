@@ -16,7 +16,7 @@ namespace TicTacToe.Game
         }
 
         
-        public int GetMove(IIndexable<Symbol> cellField)
+        public int GetMove(IIndexable<Symbol> cellField, Symbol symbol)
         {
             while (_waitingForInput) { }
             _waitingForInput = true;

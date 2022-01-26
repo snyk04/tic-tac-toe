@@ -15,22 +15,26 @@ namespace TicTacToe.PlayField.Logic
         {
             Initialize(amountOfRows, amountOfColumns);
         }
+        public CellField(IContainer<Symbol>[] cells)
+        {
+            _cells = cells;
+        }
         
         public Symbol this[int i]
         {
             get => _cells[i].Value;
             set
             {
-                if (_cells[i].Value != Symbol.Empty)
-                {
-                    throw new ApplicationException("You can't override cell's value!");
-                }
-
                 _cells[i].Value = value;
                 OnChange?.Invoke(i, value);
             }
         }
 
+        
+        public IIndexable<Symbol> Copy()
+        {
+            return new CellField(_cells);
+        }
 
         private void Initialize(int amountOfRows, int amountOfColumns)
         {

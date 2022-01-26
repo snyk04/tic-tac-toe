@@ -1,5 +1,5 @@
-﻿using TicTacToe.Game;
-using TicTacToe.PlayField.Logic;
+﻿using System;
+using TicTacToe.Game;
 using UnityEngine.UI;
 
 namespace Classes.UI
@@ -15,9 +15,15 @@ namespace Classes.UI
 
             gameHandler.OnGameEnd += Show;
         }
-        private void Show(Symbol winnerSymbol)
+        private void Show(GameEndType gameEndType)
         {
-            _winnerText.text = $"{winnerSymbol} won!";
+            _winnerText.text = gameEndType switch
+            {
+                GameEndType.XVictory => "X won!",
+                GameEndType.OVictory => "O won!",
+                GameEndType.Draw => "Draw!",
+                _ => throw new ArgumentOutOfRangeException(nameof(gameEndType), gameEndType, null)
+            };
         }
     }
 }

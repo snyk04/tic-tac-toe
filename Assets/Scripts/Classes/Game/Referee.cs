@@ -9,7 +9,7 @@ namespace TicTacToe.Game
     public class Referee : IGameHandler, IDisposable
     {
         public IControllable CurrentControllablePlayer { get; private set; }
-        public event Action<Symbol> OnGameEnd;
+        public event Action<GameEndType> OnGameEnd;
         
         private IMovable _firstPlayer;
         private IMovable _secondPlayer;
@@ -52,28 +52,27 @@ namespace TicTacToe.Game
                 CurrentControllablePlayer = (IControllable) player;
             }
             
-            _currentPlayerMoveThread = new Thread(() => playerMove = player.GetMove(_cellField));
+            _currentPlayerMoveThread = new Thread(() => playerMove = player.GetMove(_cellField, symbol));
             _currentPlayerMoveThread.Start();
             _currentPlayerMoveThread.Join();
             
             UnityMainThreadDispatcher.Instance().Enqueue(() => _cellField[playerMove] = symbol);
             Thread.Sleep(100);
-            if (CheckVictory(symbol))
+            
+            if (CellFieldAnalyzer.CheckVictory(_cellField, symbol))
             {
-                UnityMainThreadDispatcher.Instance().Enqueue(() => OnGameEnd?.Invoke(symbol));
+                GameEndType gameEndType = symbol switch
+                {
+                    Symbol.X => GameEndType.XVictory,
+                    Symbol.O => GameEndType.OVictory,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+                UnityMainThreadDispatcher.Instance().Enqueue(() => OnGameEnd?.Invoke(gameEndType));
             }
-        }
-
-        private bool CheckVictory(Symbol symbol)
-        {
-            return (_cellField[0] == symbol && _cellField[1] == symbol && _cellField[2] == symbol)
-                || (_cellField[3] == symbol && _cellField[4] == symbol && _cellField[5] == symbol)
-                || (_cellField[6] == symbol && _cellField[7] == symbol && _cellField[8] == symbol)
-                || (_cellField[0] == symbol && _cellField[3] == symbol && _cellField[6] == symbol)
-                || (_cellField[1] == symbol && _cellField[4] == symbol && _cellField[7] == symbol)
-                || (_cellField[2] == symbol && _cellField[5] == symbol && _cellField[8] == symbol)
-                || (_cellField[0] == symbol && _cellField[4] == symbol && _cellField[8] == symbol)
-                || (_cellField[6] == symbol && _cellField[4] == symbol && _cellField[5] == symbol);
+            if (CellFieldAnalyzer.NoMovesLeft(_cellField))
+            {
+                UnityMainThreadDispatcher.Instance().Enqueue(() => OnGameEnd?.Invoke(GameEndType.Draw));
+            }
         }
     }
 }
