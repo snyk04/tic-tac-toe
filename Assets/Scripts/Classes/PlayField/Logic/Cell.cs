@@ -1,4 +1,6 @@
-﻿namespace TicTacToe.PlayField.Logic
+﻿using TicTacToe.Common;
+
+namespace TicTacToe.PlayField.Logic
 {
     public class Cell : IContainer<Symbol>
     {

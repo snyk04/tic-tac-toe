@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TicTacToe
+namespace TicTacToe.Common
 {
     public interface IIndexable<T>
     {

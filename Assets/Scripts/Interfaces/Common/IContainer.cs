@@ -1,4 +1,4 @@
-﻿namespace TicTacToe
+﻿namespace TicTacToe.Common
 {
     public interface IContainer<T>
     {

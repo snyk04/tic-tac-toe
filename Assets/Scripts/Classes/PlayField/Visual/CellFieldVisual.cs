@@ -1,4 +1,5 @@
-﻿using TicTacToe.PlayField.Logic;
+﻿using TicTacToe.Common;
+using TicTacToe.PlayField.Logic;
 
 namespace TicTacToe.PlayField.Visual
 {
