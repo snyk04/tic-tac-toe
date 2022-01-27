@@ -25,7 +25,7 @@ namespace TicTacToe.Game
                 }
 
                 tempCellField[i] = symbol;
-                int moveValue = Minimax(tempCellField, false, 0);
+                int moveValue = Minimax(tempCellField, false, 0, -100, 100);
                 tempCellField[i] = Symbol.Empty;
                 
                 if (moveValue > bestValue)
@@ -47,7 +47,7 @@ namespace TicTacToe.Game
                 _ => throw new ArgumentException()
             };
         }
-        private int Minimax(IIndexable<Symbol> cellField, bool isMax, int depth)
+        private int Minimax(IIndexable<Symbol> cellField, bool isMax, int depth, int alpha, int beta)
         {
             if (CellFieldAnalyzer.CheckVictory(cellField, _playerSymbol))
             {
@@ -72,10 +72,16 @@ namespace TicTacToe.Game
                     {
                         continue;
                     }
-                    
+
                     cellField[i] = _playerSymbol;
-                    bestValue = Math.Max(bestValue, Minimax(cellField, false, depth + 1));
+                    bestValue = Math.Max(bestValue, Minimax(cellField, false, depth + 1, alpha, beta));
+                    alpha = Math.Max(alpha, bestValue);
                     cellField[i] = Symbol.Empty;
+
+                    if (beta <= alpha)
+                    {
+                        break;
+                    }
                 }
             }
             else
@@ -89,8 +95,14 @@ namespace TicTacToe.Game
                     }
 
                     cellField[i] = _opponentSymbol;
-                    bestValue = Math.Min(bestValue, Minimax(cellField, true, depth + 1));
+                    bestValue = Math.Min(bestValue, Minimax(cellField, true, depth + 1, alpha, beta));
+                    beta = Math.Min(beta, bestValue);
                     cellField[i] = Symbol.Empty;
+                    
+                    if (beta <= alpha)
+                    {
+                        break;
+                    }
                 }
             }
             
