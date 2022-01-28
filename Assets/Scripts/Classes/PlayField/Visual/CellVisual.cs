@@ -21,8 +21,11 @@ namespace TicTacToe.PlayField.Visual
             get => _valueText.text;
             set
             {
-                _valueText.text = value;
-                _cellButton.interactable = false;
+                UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                {
+                    _valueText.text = value;
+                    _cellButton.interactable = false;
+                });
             }
         }
     }

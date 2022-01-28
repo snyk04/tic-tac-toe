@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using TicTacToe.Common;
 using TicTacToe.PlayField.Logic;
@@ -8,8 +7,6 @@ namespace TicTacToe.Game
 {
     public class Referee : IGameHandler, IDisposable
     {
-        private const int TurnDelay = 20;
-        
         public IControllable CurrentControllablePlayer { get; private set; }
         public event Action<GameEndType> OnGameEnd;
         
@@ -18,13 +15,11 @@ namespace TicTacToe.Game
         private IIndexable<Symbol> _cellField;
 
         private Thread _gameLoopThread;
-        private Thread _currentPlayerMoveThread;
         
         
         public void Dispose()
         {
             _gameLoopThread.Abort();
-            _currentPlayerMoveThread.Abort();
         }
         
         public void HandleGame(IMovable firstPlayer, IMovable secondPlayer, IIndexable<Symbol> cellField)
@@ -48,19 +43,14 @@ namespace TicTacToe.Game
         }
         private void HandlePlayerMove(IMovable player, Symbol symbol)
         {
-            Thread.Sleep(TurnDelay);
-            int playerMove = 0;
-            if (player.GetType().GetInterfaces().ToList().Contains(typeof(IControllable)))
+            if (player is IControllable controllablePlayer)
             {
-                CurrentControllablePlayer = (IControllable) player;
+                CurrentControllablePlayer = controllablePlayer;
             }
-            
-            _currentPlayerMoveThread = new Thread(() => playerMove = player.GetMove(_cellField, symbol));
-            _currentPlayerMoveThread.Start();
-            _currentPlayerMoveThread.Join();
-            
-            UnityMainThreadDispatcher.Instance().Enqueue(() => _cellField[playerMove] = symbol);
-            Thread.Sleep(TurnDelay);
+
+            int playerMove = player.GetMove(_cellField, symbol);
+
+            _cellField[playerMove] = symbol;
             
             if (CellFieldAnalyzer.CheckVictory(_cellField, symbol))
             {
@@ -70,11 +60,11 @@ namespace TicTacToe.Game
                     Symbol.O => GameEndType.OVictory,
                     _ => throw new ArgumentOutOfRangeException()
                 };
-                UnityMainThreadDispatcher.Instance().Enqueue(() => OnGameEnd?.Invoke(gameEndType));
+                OnGameEnd?.Invoke(gameEndType);
             }
             if (CellFieldAnalyzer.NoMovesLeft(_cellField))
             {
-                UnityMainThreadDispatcher.Instance().Enqueue(() => OnGameEnd?.Invoke(GameEndType.Draw));
+                OnGameEnd?.Invoke(GameEndType.Draw);
             }
         }
     }
