@@ -43,15 +43,15 @@ namespace TicTacToe.Game
         }
         private int Minimax(IIndexable<Symbol> cellField, bool isMax, int depth, int alpha, int beta)
         {
-            if (CellFieldAnalyzer.CheckVictory(cellField, _playerSymbol))
+            if (CellFieldAnalyzer.IsVictory(cellField, _playerSymbol))
             {
                 return VictoryRating - depth;
             }
-            if (CellFieldAnalyzer.CheckVictory(cellField, _opponentSymbol))
+            if (CellFieldAnalyzer.IsVictory(cellField, _opponentSymbol))
             {
                 return depth - VictoryRating;
             }
-            if (CellFieldAnalyzer.NoMovesLeft(cellField))
+            if (!CellFieldAnalyzer.AreEmptyCellsOnField(cellField))
             {
                 return DrawRating;
             }

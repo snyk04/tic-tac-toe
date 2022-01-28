@@ -52,7 +52,7 @@ namespace TicTacToe.Game
 
             _cellField[playerMove] = symbol;
             
-            if (CellFieldAnalyzer.CheckVictory(_cellField, symbol))
+            if (CellFieldAnalyzer.IsVictory(_cellField, symbol))
             {
                 GameEndType gameEndType = symbol switch
                 {
@@ -62,7 +62,7 @@ namespace TicTacToe.Game
                 };
                 OnGameEnd?.Invoke(gameEndType);
             }
-            if (CellFieldAnalyzer.NoMovesLeft(_cellField))
+            if (!CellFieldAnalyzer.AreEmptyCellsOnField(_cellField))
             {
                 OnGameEnd?.Invoke(GameEndType.Draw);
             }
