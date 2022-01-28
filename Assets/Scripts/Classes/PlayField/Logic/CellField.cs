@@ -15,7 +15,7 @@ namespace TicTacToe.PlayField.Logic
         {
             Initialize(amountOfRows, amountOfColumns);
         }
-        public CellField(IContainer<Symbol>[] cells)
+        private CellField(IContainer<Symbol>[] cells)
         {
             _cells = cells;
         }
