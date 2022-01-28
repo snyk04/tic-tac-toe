@@ -848,7 +848,7 @@ GameObject:
   - component: {fileID: 496633156}
   - component: {fileID: 496633157}
   m_Layer: 0
-  m_Name: GameOverInterface
+  m_Name: GameOverView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
