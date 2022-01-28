@@ -1,6 +1,5 @@
 ﻿using TicTacToe.Common;
 using TicTacToe.PlayField.Logic;
-using UnityEngine;
 
 namespace TicTacToe.Game
 {
