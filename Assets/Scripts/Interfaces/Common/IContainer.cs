@@ -1,7 +1,7 @@
 ﻿namespace TicTacToe.Common
 {
-    public interface IContainer<T>
+    public interface IContainer<T> : IReadOnlyContainer<T>, IWriteOnlyContainer<T>
     {
-        T Value { get; set; }
+        new T Value { get; set; }
     }
 }

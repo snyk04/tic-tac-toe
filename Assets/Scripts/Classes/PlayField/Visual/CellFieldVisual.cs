@@ -5,10 +5,10 @@ namespace TicTacToe.PlayField.Visual
 {
     public class CellFieldVisual
     {
-        private readonly IContainer<string>[] _cellVisuals;
+        private readonly IWriteOnlyContainer<string>[] _cellVisuals;
         
         
-        public CellFieldVisual(IIndexable<Symbol> cellField, IContainer<string>[] cellVisuals)
+        public CellFieldVisual(IIndexable<Symbol> cellField, IWriteOnlyContainer<string>[] cellVisuals)
         {
             _cellVisuals = cellVisuals;
 

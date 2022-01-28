@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace TicTacToe.PlayField.Visual
 {
-    public class CellVisual : IContainer<string>
+    public class CellVisual : IWriteOnlyContainer<string>
     {
         private readonly Text _valueText;
         private readonly Button _cellButton;
@@ -14,11 +14,10 @@ namespace TicTacToe.PlayField.Visual
             _valueText = valueText;
             _cellButton = cellButton;
         }
-
+        
         
         public string Value
         {
-            get => _valueText.text;
             set
             {
                 UnityMainThreadDispatcher.Instance().Enqueue(() =>

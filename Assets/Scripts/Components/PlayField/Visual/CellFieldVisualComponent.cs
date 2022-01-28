@@ -23,7 +23,7 @@ namespace TicTacToe.PlayField.Visual
                                             "rows by the number of columns");
             }
             
-            var cellVisuals = new IContainer<string>[amountOfCells];
+            var cellVisuals = new IWriteOnlyContainer<string>[amountOfCells];
             for (int i = 0; i < amountOfCells; i++)
             {
                 cellVisuals[i] = _cellVisuals[i].CellVisual;
