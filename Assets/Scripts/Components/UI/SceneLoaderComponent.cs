@@ -1,5 +1,4 @@
-﻿using Classes.UI;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace TicTacToe.UI
 {

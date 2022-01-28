@@ -1,6 +1,6 @@
 ﻿using UnityEngine.SceneManagement;
 
-namespace Classes.UI
+namespace TicTacToe.UI
 {
     public class SceneLoader
     {

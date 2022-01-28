@@ -1,5 +1,4 @@
-﻿using System;
-using TicTacToe.PlayField.Logic;
+﻿using TicTacToe.PlayField.Logic;
 using UnityEngine;
 
 namespace TicTacToe.Game
