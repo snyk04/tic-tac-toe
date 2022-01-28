@@ -56,50 +56,54 @@ namespace TicTacToe.Game
                 return DrawRating;
             }
 
-            int bestValue;
-            if (isMax)
+            return isMax 
+                ? GetBestValueForMaximizer(cellField, depth, alpha, beta) 
+                : GetBestValueForMinimizer(cellField, depth, alpha, beta);
+        }
+        private int GetBestValueForMaximizer(IIndexable<Symbol> cellField, int depth, int alpha, int beta)
+        {
+            int bestValue = int.MinValue;
+            for (int i = 0; i < cellField.Length; i++)
             {
-                bestValue = int.MinValue;
-                for (int i = 0; i < cellField.Length; i++)
+                if (cellField[i] != Symbol.Empty)
                 {
-                    if (cellField[i] != Symbol.Empty)
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    cellField[i] = _playerSymbol;
-                    bestValue = Math.Max(bestValue, Minimax(cellField, false, depth + 1, alpha, beta));
-                    alpha = Math.Max(alpha, bestValue);
-                    cellField[i] = Symbol.Empty;
+                cellField[i] = _playerSymbol;
+                bestValue = Math.Max(bestValue, Minimax(cellField, false, depth + 1, alpha, beta));
+                alpha = Math.Max(alpha, bestValue);
+                cellField[i] = Symbol.Empty;
 
-                    if (beta <= alpha)
-                    {
-                        break;
-                    }
+                if (beta <= alpha)
+                {
+                    break;
                 }
             }
-            else
-            {
-                bestValue = int.MaxValue;
-                for (int i = 0; i < cellField.Length; i++)
-                {
-                    if (cellField[i] != Symbol.Empty)
-                    {
-                        continue;
-                    }
 
-                    cellField[i] = _opponentSymbol;
-                    bestValue = Math.Min(bestValue, Minimax(cellField, true, depth + 1, alpha, beta));
-                    beta = Math.Min(beta, bestValue);
-                    cellField[i] = Symbol.Empty;
-                    
-                    if (beta <= alpha)
-                    {
-                        break;
-                    }
+            return bestValue;
+        }
+        private int GetBestValueForMinimizer(IIndexable<Symbol> cellField, int depth, int alpha, int beta)
+        {
+            int bestValue = int.MaxValue;
+            for (int i = 0; i < cellField.Length; i++)
+            {
+                if (cellField[i] != Symbol.Empty)
+                {
+                    continue;
+                }
+
+                cellField[i] = _opponentSymbol;
+                bestValue = Math.Min(bestValue, Minimax(cellField, true, depth + 1, alpha, beta));
+                beta = Math.Min(beta, bestValue);
+                cellField[i] = Symbol.Empty;
+                
+                if (beta <= alpha)
+                {
+                    break;
                 }
             }
-            
+
             return bestValue;
         }
     }
