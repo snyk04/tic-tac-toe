@@ -6,6 +6,9 @@ namespace TicTacToe.Game
 {
     public class Bot : IMovable
     {
+        private const int VictoryRating = 10;
+        private const int DrawRating = 0;
+
         private Symbol _playerSymbol;
         private Symbol _opponentSymbol;
         
@@ -13,9 +16,10 @@ namespace TicTacToe.Game
         {
             IIndexable<Symbol> tempCellField = cellField.Copy();
 
-            SetSymbols(symbol);
-            
-            int bestValue = -100;
+            _playerSymbol = symbol;
+            _opponentSymbol = symbol.GetOpponentSymbol();
+
+            int bestValue = int.MinValue;
             int move = -1;
             for (int i = 0; i < tempCellField.Length; i++)
             {
@@ -25,7 +29,7 @@ namespace TicTacToe.Game
                 }
 
                 tempCellField[i] = symbol;
-                int moveValue = Minimax(tempCellField, false, 0, -100, 100);
+                int moveValue = Minimax(tempCellField, false, 0, int.MinValue, int.MaxValue);
                 tempCellField[i] = Symbol.Empty;
                 
                 if (moveValue > bestValue)
@@ -34,38 +38,28 @@ namespace TicTacToe.Game
                     move = i;
                 }
             }
-            
+
             return move;
-        }
-        private void SetSymbols(Symbol playerSymbol)
-        {
-            _playerSymbol = playerSymbol;
-            _opponentSymbol = playerSymbol switch
-            {
-                Symbol.X => Symbol.O,
-                Symbol.O => Symbol.X,
-                _ => throw new ArgumentException()
-            };
         }
         private int Minimax(IIndexable<Symbol> cellField, bool isMax, int depth, int alpha, int beta)
         {
             if (CellFieldAnalyzer.CheckVictory(cellField, _playerSymbol))
             {
-                return 10 - depth;
+                return VictoryRating - depth;
             }
             if (CellFieldAnalyzer.CheckVictory(cellField, _opponentSymbol))
             {
-                return depth - 10;
+                return depth - VictoryRating;
             }
             if (CellFieldAnalyzer.NoMovesLeft(cellField))
             {
-                return 0;
+                return DrawRating;
             }
 
             int bestValue;
             if (isMax)
             {
-                bestValue = -100;
+                bestValue = int.MinValue;
                 for (int i = 0; i < cellField.Length; i++)
                 {
                     if (cellField[i] != Symbol.Empty)
@@ -86,7 +80,7 @@ namespace TicTacToe.Game
             }
             else
             {
-                bestValue = 100;
+                bestValue = int.MaxValue;
                 for (int i = 0; i < cellField.Length; i++)
                 {
                     if (cellField[i] != Symbol.Empty)
