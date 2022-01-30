@@ -14,11 +14,5 @@ namespace TicTacToe.PlayField.Logic
         {
             CellField = new CellField(_amountOfRows, _amountOfColumns);
         }
-
-
-        public void SetCellValue(int cellIndex)
-        {
-            CellField[cellIndex] = Symbol.X;
-        }
     }
 }
