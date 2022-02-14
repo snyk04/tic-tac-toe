@@ -3,7 +3,7 @@ Classic game with strong minimax AI.
 
 ## How to start playing
 1. Open "Releases" folder.   
-2. Go to the latest release and download "Tic Tac Toe" archive.   
+2. Go to the latest release and download "Tic Tac Toe.zip" archive.   
 3. Unzip downloaded archive.   
 4. Execute Tic Tac Toe.exe.  
 
